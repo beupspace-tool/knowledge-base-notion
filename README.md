@@ -1,28 +1,41 @@
-# 🧠 Xây Dựng Knowledge Base Thực Chiến với Notion
+# 🧠 Building a Knowledge Base That Works — with Notion
 
-Hướng dẫn toàn diện xây dựng Knowledge Base với Notion — từ lý thuyết đến thực hành.
+A comprehensive, battle-tested guide to building a Knowledge Base with Notion — from theory to full implementation. Covers methodology, AI-assisted workflows, database design patterns, team permissions, and real-world examples across industries.
 
-**🌐 Đọc online:** [beup-space.github.io/knowledge-base-notion](https://beup-space.github.io/knowledge-base-notion)
+<br>
 
-## Nội dung
+## 🌐 Read Online
 
-1. 🤔 Tại sao cần Knowledge Base?
-2. 🔧 Tại sao chọn Notion?
-3. 🏗️ Phương pháp luận (LATCH, DIKW, PARA, Zettelkasten)
-4. 🛠️ Triển khai từng bước
-5. 🤖 Notion AI cho KB
-6. 🚚 Migration Guide
-7. 📂 Ví dụ theo ngành
-8. ⚠️ 7 Sai lầm phổ biến
-9. ✅ Checklist hành động
-10. 🔐 Permissions & Sharing
-11. 🧩 Database Design Patterns
-12. ⌨️ Shortcuts & Power Tips
-13. 🧠 AI Best Practices & Chống Brain Rot
-14. 🎯 Tổng kết
+| Language | Link |
+|----------|------|
+| 🇻🇳 Tiếng Việt | [beupspace-tool.github.io/knowledge-base-notion](https://beupspace-tool.github.io/knowledge-base-notion/) |
+| 🇬🇧 English | [beupspace-tool.github.io/knowledge-base-notion/en](https://beupspace-tool.github.io/knowledge-base-notion/en/) |
+
+<br>
+
+## 📚 What's Inside
+
+| # | Section |
+|---|---------|
+| 1 | 🤔 Why You Need a Knowledge Base |
+| 2 | 🔧 Why Notion? |
+| 3 | 🏗️ Methodology — LATCH, DIKW, PARA, Zettelkasten |
+| 4 | 🛠️ Step-by-Step Implementation |
+| 5 | 🤖 Notion AI for KB |
+| 6 | 🚚 Migration Guide |
+| 7 | 📂 Real-World Examples by Industry |
+| 8 | ⚠️ 7 Common Mistakes to Avoid |
+| 9 | ✅ Action Checklist |
+| 10 | 🔐 Permissions & Sharing |
+| 11 | 🧩 Database Design Patterns |
+| 12 | ⌨️ Shortcuts & Power Tips |
+| 13 | 🧠 AI Best Practices & Anti-Brain-Rot |
+| 14 | 🎯 Conclusion |
+
+<br>
 
 ---
 
-**Produced by:** 🦫 [BEUP Learning Solutions](http://beup.space)
+**Produced by** 🦫 [BEUP Learning Solutions](http://beup.space)
 
 > © 2026 BEUP Learning Solutions. All rights reserved.
