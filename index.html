@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧠 Xây Dựng Knowledge Base Thực Chiến — Hướng Dẫn Toàn Diện Với Notion</title>
+  <meta name="description" content="Hướng dẫn toàn diện xây dựng Knowledge Base với Notion — từ lý thuyết đến thực hành. Dành cho cá nhân, team, và doanh nghiệp.">
+  <meta property="og:title" content="🧠 Xây Dựng Knowledge Base Thực Chiến với Notion">
+  <meta property="og:description" content="Hướng dẫn toàn diện — PARA, DIKW, Zettelkasten, Database Design Patterns, AI Best Practices.">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-light: #eff6ff;
+      --blue-border: #bfdbfe;
+      --green: #16a34a;
+      --green-light: #f0fdf4;
+      --green-border: #bbf7d0;
+      --yellow: #ca8a04;
+      --yellow-light: #fefce8;
+      --yellow-border: #fde68a;
+      --purple: #7c3aed;
+      --purple-light: #f5f3ff;
+      --purple-border: #ddd6fe;
+      --red: #dc2626;
+      --red-light: #fef2f2;
+      --red-border: #fecaca;
+      --gray: #6b7280;
+      --gray-light: #f9fafb;
+      --gray-border: #e5e7eb;
+      --orange-light: #fff7ed;
+      --orange-border: #fed7aa;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --sidebar-w: 260px;
+      --content-max: 860px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      background: #fff;
+    }
+
+    /* ── Layout ── */
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--gray-light);
+      border-right: 1px solid var(--gray-border);
+      padding: 24px 16px;
+      font-size: 13px;
+    }
+    .sidebar-logo {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--blue);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sidebar h3 {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      margin-top: 16px;
+    }
+    .sidebar ul { list-style: none; }
+    .sidebar ul li { margin-bottom: 2px; }
+    .sidebar ul li a {
+      display: block;
+      padding: 5px 8px;
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      transition: background 0.15s;
+      line-height: 1.4;
+    }
+    .sidebar ul li a:hover { background: var(--blue-light); color: var(--blue); }
+    .sidebar ul li a.active { background: var(--blue-light); color: var(--blue); font-weight: 600; }
+
+    /* ── Main ── */
+    .main {
+      flex: 1;
+      min-width: 0;
+      max-width: calc(100% - var(--sidebar-w));
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #7c3aed 100%);
+      color: #fff;
+      padding: 64px 48px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 16px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-bottom: 28px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      opacity: 0.8;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 6px; }
+
+    /* ── Reading guide box ── */
+    .reading-guide {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .reading-card {
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+    }
+    .reading-card .label { font-weight: 700; margin-bottom: 4px; }
+
+    /* ── Content ── */
+    .content {
+      padding: 48px 48px;
+      max-width: var(--content-max);
+    }
+    .content h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--blue);
+      margin-top: 56px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--blue-light);
+      scroll-margin-top: 20px;
+    }
+    .content h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-top: 32px;
+      margin-bottom: 14px;
+      scroll-margin-top: 20px;
+    }
+    .content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    .content p { margin-bottom: 14px; }
+    .content ul, .content ol {
+      padding-left: 24px;
+      margin-bottom: 14px;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { font-weight: 700; }
+    .content em { font-style: italic; }
+    .content code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--gray-light);
+      border: 1px solid var(--gray-border);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .content blockquote {
+      border-left: 3px solid var(--blue);
+      padding: 12px 20px;
+      background: var(--blue-light);
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+      font-style: italic;
+      color: #1e40af;
+    }
+    .content hr {
+      border: none;
+      border-top: 1px solid var(--gray-border);
+      margin: 40px 0;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      display: flex;
+      gap: 12px;
+      border-radius: 10px;
+      padding: 16px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .callout-body { flex: 1; }
+    .callout-body strong { display: block; margin-bottom: 4px; }
+    .callout.blue { background: var(--blue-light); border: 1px solid var(--blue-border); color: #1e40af; }
+    .callout.green { background: var(--green-light); border: 1px solid var(--green-border); color: #14532d; }
+    .callout.yellow { background: var(--yellow-light); border: 1px solid var(--yellow-border); color: #713f12; }
+    .callout.purple { background: var(--purple-light); border: 1px solid var(--purple-border); color: #4c1d95; }
+    .callout.gray { background: var(--gray-light); border: 1px solid var(--gray-border); color: var(--text); }
+    .callout.orange { background: var(--orange-light); border: 1px solid var(--orange-border); color: #7c2d12; }
+    .callout.red { background: var(--red-light); border: 1px solid var(--red-border); color: #7f1d1d; }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; margin: 20px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    thead tr { background: var(--blue); color: #fff; }
+    thead.purple tr { background: var(--purple); }
+    thead.gray tr { background: var(--gray); }
+    thead.red tr { background: var(--red); }
+    thead.green tr { background: var(--green); }
+    th, td { padding: 10px 14px; text-align: left; border: 1px solid var(--gray-border); }
+    th { font-weight: 700; }
+    tbody tr:nth-child(even) { background: var(--gray-light); }
+    tbody tr:hover { background: var(--blue-light); }
+
+    /* ── Details/Summary ── */
+    details {
+      border: 1px solid var(--gray-border);
+      border-radius: 10px;
+      margin: 12px 0;
+      overflow: hidden;
+    }
+    summary {
+      padding: 14px 18px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      background: var(--gray-light);
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    summary::before { content: '▶'; font-size: 11px; transition: transform 0.2s; flex-shrink: 0; }
+    details[open] summary::before { transform: rotate(90deg); }
+    details[open] summary { border-bottom: 1px solid var(--gray-border); }
+    .details-content { padding: 18px; }
+
+    /* ── Mermaid ── */
+    .mermaid-wrap {
+      background: var(--gray-light);
+      border: 1px solid var(--gray-border);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+
+    /* ── Checklist ── */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--gray-border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── Week headers ── */
+    .week-header {
+      background: var(--blue);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      margin: 24px 0 12px;
+      display: inline-block;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--gray-light);
+      border-top: 1px solid var(--gray-border);
+      padding: 32px 48px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer a { color: var(--blue); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { max-width: 100%; }
+      .hero { padding: 40px 24px; }
+      .content { padding: 32px 24px; }
+      .footer { padding: 24px; }
+    }
+
+    /* ── Columns ── */
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 16px 0; }
+    @media (max-width: 600px) { .cols { grid-template-columns: 1fr; } }
+
+    /* ── Progress ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .stat-card {
+      background: var(--gray-light);
+      border: 1px solid var(--gray-border);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-card .num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--blue);
+    }
+    .stat-card .label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    /* ── TOC in content ── */
+    .toc-box {
+      background: var(--gray-light);
+      border: 1px solid var(--gray-border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .toc-box h3 { margin-top: 0; margin-bottom: 12px; font-size: 14px; }
+    .toc-box ol { margin: 0; }
+    .toc-box li { margin-bottom: 6px; font-size: 13.5px; }
+    .toc-box a { color: var(--blue); text-decoration: none; }
+    .toc-box a:hover { text-decoration: underline; }
+
+    /* Section scroll indicator */
+    .section-num {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 28px;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar TOC -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">🧠 KB với Notion</div>
+      <h3>Mục lục</h3>
+      <ul>
+        <li><a href="#s1">1. 🤔 Tại sao cần KB?</a></li>
+        <li><a href="#s2">2. 🔧 Tại sao chọn Notion?</a></li>
+        <li><a href="#s3">3. 🏗️ Phương pháp luận</a></li>
+        <li><a href="#s4">4. 🛠️ Triển khai từng bước</a></li>
+        <li><a href="#s5">5. 🤖 Notion AI cho KB</a></li>
+        <li><a href="#s6">6. 🚚 Migration Guide</a></li>
+        <li><a href="#s7">7. 📂 Ví dụ theo ngành</a></li>
+        <li><a href="#s8">8. ⚠️ 7 Sai lầm phổ biến</a></li>
+        <li><a href="#s9">9. ✅ Checklist hành động</a></li>
+        <li><a href="#s10">10. 🔐 Permissions & Sharing</a></li>
+        <li><a href="#s11">11. 🧩 DB Design Patterns</a></li>
+        <li><a href="#s12">12. ⌨️ Shortcuts & Power Tips</a></li>
+        <li><a href="#s13">13. 🧠 AI Best Practices</a></li>
+        <li><a href="#s14">14. 🎯 Tổng kết</a></li>
+      </ul>
+      <h3 style="margin-top:24px">Produced by</h3>
+      <div style="font-size:12px;color:var(--text-muted)">🦫 BEUP Learning Solutions<br><a href="http://beup.space" style="color:var(--blue)">beup.space</a></div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-badge">🦫 BEUP Learning Solutions</div>
+        <h1>🧠 Xây Dựng Knowledge Base Thực Chiến</h1>
+        <p>Hướng Dẫn Toàn Diện Với Notion — Từ lý thuyết đến thực hành, từ cá nhân đến doanh nghiệp.</p>
+        <div class="hero-meta">
+          <span>📖 14 phần</span>
+          <span>🇻🇳 Tiếng Việt</span>
+          <span>🔄 Cập nhật 2026</span>
+          <span>🌐 <a href="http://beup.space" style="color:#fff">beup.space</a></span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+
+        <!-- Intro callout -->
+        <div class="callout blue">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">
+            <strong>Tài liệu này dành cho ai?</strong>
+            Bất kỳ ai muốn ngừng "ghi chú rồi quên" và bắt đầu xây dựng một hệ thống tri thức cá nhân hoặc tổ chức — nơi mỗi mẩu thông tin có nhà của nó, có thể tìm lại, kết nối, và tạo ra giá trị thực sự.
+          </div>
+        </div>
+
+        <!-- Reading guide -->
+        <h3>🧭 Bạn nên đọc phần nào?</h3>
+        <div class="reading-guide">
+          <div class="reading-card" style="background:var(--green-light);border:1px solid var(--green-border)">
+            <div class="label" style="color:var(--green)">🟢 Mới bắt đầu?</div>
+            <div style="color:#14532d;font-size:13px">→ Phần 1 + 4 + 9</div>
+          </div>
+          <div class="reading-card" style="background:var(--blue-light);border:1px solid var(--blue-border)">
+            <div class="label" style="color:var(--blue)">🔵 Team Lead / Manager?</div>
+            <div style="color:#1e40af;font-size:13px">→ Phần 1 + 5 + 6 + 10</div>
+          </div>
+          <div class="reading-card" style="background:var(--purple-light);border:1px solid var(--purple-border)">
+            <div class="label" style="color:var(--purple)">🟣 Builder / Power User?</div>
+            <div style="color:#4c1d95;font-size:13px">→ Phần 3 + 4 + 5 + 11 + 12 + 13</div>
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- Section 1 -->
+        <h2 id="s1">1. 🤔 Tại Sao Phải Xây Dựng Knowledge Base?</h2>
+        <h3>Thực trạng: Thông tin phân tán = Quyết định kém</h3>
+
+        <div class="cols">
+          <div>
+            <div class="callout yellow">
+              <div class="callout-icon">📖</div>
+              <div class="callout-body">Nhân viên trung bình dành <strong>1.8 giờ mỗi ngày</strong> (~9.3 giờ/tuần) chỉ để tìm kiếm thông tin. Đó là <strong>gần 30% thời gian làm việc</strong> bị lãng phí.</div>
+            </div>
+            <ul>
+              <li><strong>74% nhân viên</strong> cảm thấy đang bỏ lỡ thông tin quan trọng</li>
+              <li>Chi phí "tái phát minh bánh xe" tiêu tốn trung bình <strong>$4,100/nhân viên/năm</strong></li>
+              <li><strong>60% knowledge</strong> là <em>tacit knowledge</em> — chưa bao giờ được ghi lại</li>
+              <li>Khi nhân viên nghỉ, <strong>70% kiến thức</strong> ra đi cùng nếu không có hệ thống</li>
+            </ul>
+          </div>
+          <div>
+            <div class="callout purple">
+              <div class="callout-icon">🚀</div>
+              <div class="callout-body">Doanh nghiệp có KB tốt giảm <strong>35% thời gian onboarding</strong> nhân viên mới.</div>
+            </div>
+            <ul>
+              <li>Tổ chức có hệ thống tri thức <strong>ra quyết định nhanh hơn 5x</strong></li>
+              <li>Team dùng KB giải quyết ticket support <strong>nhanh hơn 40%</strong></li>
+              <li>Giảm <strong>50% câu hỏi lặp lại</strong> trong nội bộ</li>
+              <li>ROI: trung bình <strong>$1 đầu tư → $7 tiết kiệm</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <blockquote>"Ghi chú tốt không có nghĩa là quản lý tri thức tốt. Ghi chú tốt mà không hệ thống hóa thì chỉ là tạo rác có tổ chức."</blockquote>
+
+        <h3>Trước vs Sau khi có Knowledge Base</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tình huống</th><th>❌ Không có KB</th><th>✅ Có KB</th></tr></thead>
+            <tbody>
+              <tr><td>Nhân viên mới hỏi quy trình</td><td>Phải hỏi 3-4 người, mỗi người nói khác nhau</td><td>Tự tra SOP database, bắt đầu làm trong 30 phút</td></tr>
+              <tr><td>Khách hàng hỏi câu hỏi thường gặp</td><td>Support trả lời lại từ đầu mỗi lần</td><td>Gửi link bài viết, giải quyết trong 2 phút</td></tr>
+              <tr><td>Quyết định chiến lược</td><td>Dựa trên trí nhớ và cảm tính</td><td>Dựa trên data, history, và lessons learned</td></tr>
+              <tr><td>Nhân viên nghỉ việc</td><td>Kiến thức biến mất, team hoảng loạn</td><td>Kiến thức đã được capture, transition mượt mà</td></tr>
+              <tr><td>Mở rộng team/chi nhánh</td><td>Mất 3-6 tháng training thủ công</td><td>Nhân bản hệ thống, rút ngắn còn 2-4 tuần</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>5 lý do cốt lõi cần xây KB ngay</h3>
+        <ol>
+          <li><strong>Giảm phụ thuộc vào cá nhân</strong> — Tri thức thuộc về tổ chức, không thuộc về một người</li>
+          <li><strong>Ra quyết định nhanh hơn</strong> — Mọi thông tin đã ở đúng chỗ, sẵn sàng truy xuất</li>
+          <li><strong>Onboarding nhanh gấp đôi</strong> — Nhân viên mới tự học được 80% quy trình</li>
+          <li><strong>Tránh lặp lại sai lầm</strong> — Lessons learned được ghi nhận và chia sẻ</li>
+          <li><strong>Tạo lợi thế cạnh tranh</strong> — Tổ chức học nhanh hơn đối thủ sẽ thắng</li>
+        </ol>
+
+        <hr>
+
+        <!-- Section 2 -->
+        <h2 id="s2">2. 🔧 Tại Sao Chọn Notion? — So Sánh Với Các Công Cụ Khác</h2>
+
+        <details>
+          <summary>Notion là gì? — Giải thích trong 60 giây (bấm mở nếu bạn chưa biết)</summary>
+          <div class="details-content">
+            <p>Notion là một <strong>all-in-one workspace</strong> — kết hợp ghi chú, quản lý dự án, database, wiki, và AI trong một nền tảng duy nhất. Thay vì dùng 5-10 công cụ khác nhau, Notion gom tất cả về một chỗ.</p>
+            <p><strong>Khái niệm cốt lõi:</strong></p>
+            <ul>
+              <li><strong>Block</strong> — Mọi thứ trong Notion là block: text, hình ảnh, bảng, database. Có thể kéo thả, nest, reorder.</li>
+              <li><strong>Page</strong> — Một trang chứa nhiều blocks. Page có thể nằm trong page khác (nested pages).</li>
+              <li><strong>Database</strong> — Bảng dữ liệu có cấu trúc, với properties (cột), views (cách hiển thị). <strong>Đây là trái tim của mọi hệ thống trên Notion.</strong></li>
+              <li><strong>Relations</strong> — Liên kết giữa các database, tạo ra mạng lưới thông tin thay vì "hòn đảo cô lập".</li>
+              <li><strong>Views</strong> — Cùng 1 database, hiển thị dưới dạng table, board, calendar, gallery, timeline... tùy mục đích.</li>
+            </ul>
+            <div class="callout blue">
+              <div class="callout-icon">📌</div>
+              <div class="callout-body"><strong>100 triệu người dùng</strong> toàn cầu · <strong>75% Fortune 500</strong> · <strong>$10 tỷ</strong> định giá · <strong>4 triệu+</strong> khách hàng trả phí</div>
+            </div>
+          </div>
+        </details>
+
+        <h3>So sánh nhanh</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tiêu chí</th><th>Notion</th><th>Confluence</th><th>Obsidian</th><th>Google Docs</th></tr></thead>
+            <tbody>
+              <tr><td>Database tích hợp</td><td>✅ Native, mạnh</td><td>❌ Cần plugin</td><td>❌ Không có</td><td>❌ Không có</td></tr>
+              <tr><td>Liên kết chéo (Relations)</td><td>✅ Relation property</td><td>⚠️ Hyperlink thủ công</td><td>✅ Backlinks mạnh</td><td>❌ Hyperlink thủ công</td></tr>
+              <tr><td>Multiple views</td><td>✅ Table, Board, Calendar, Gallery, Timeline...</td><td>⚠️ Hạn chế</td><td>❌ Chỉ có text</td><td>❌ Không có</td></tr>
+              <tr><td>AI tích hợp</td><td>✅ Notion AI (search, Q&A, write, autofill)</td><td>✅ Atlassian Intelligence</td><td>⚠️ Plugin bên thứ 3</td><td>✅ Gemini</td></tr>
+              <tr><td>Collaboration</td><td>✅ Real-time, comments, mentions</td><td>✅ Tốt cho enterprise</td><td>❌ Single-user</td><td>✅ Real-time</td></tr>
+              <tr><td>Tổ chức KB có cấu trúc</td><td>✅ Database-first, filter, sort, group</td><td>⚠️ Page tree truyền thống</td><td>⚠️ Folder + tags</td><td>❌ Folder only</td></tr>
+              <tr><td>Phù hợp với</td><td>Team mọi quy mô, freelancer, cá nhân</td><td>Enterprise lớn (Jira ecosystem)</td><td>Cá nhân, researcher, writer</td><td>Team nhỏ, cộng tác nhanh</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout green">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><strong>Tóm lại:</strong> Notion là lựa chọn tốt nhất khi bạn cần <strong>database có cấu trúc</strong> + <strong>collaboration</strong> + <strong>linh hoạt</strong> + <strong>AI</strong> trong cùng một nền tảng.</div>
+        </div>
+
+        <hr>
+
+        <!-- Section 3 -->
+        <h2 id="s3">3. 🏗️ Phương Pháp Luận — Nền Tảng Lý Thuyết</h2>
+
+        <div class="callout blue">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">Phần này giới thiệu <strong>4 framework</strong> nền tảng. Nếu chỉ có thời gian cho 1 cái, chọn <strong>PARA</strong>.</div>
+        </div>
+
+        <details>
+          <summary>🔤 3.1. LATCH — 5 cách tổ chức mọi thông tin trên thế giới</summary>
+          <div class="details-content">
+            <p>Richard Saul Wurman (người sáng lập TED Conference) chứng minh rằng <strong>mọi thông tin</strong> chỉ có thể được tổ chức theo <strong>5 cách duy nhất</strong>:</p>
+            <div class="table-wrap">
+              <table>
+                <thead style="background:var(--purple)"><tr><th>Chữ cái</th><th>Phương pháp</th><th>Ví dụ thực tế</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>L</strong> — Location</td><td>Theo vị trí địa lý</td><td>SOP theo chi nhánh, thị trường theo quốc gia</td></tr>
+                  <tr><td><strong>A</strong> — Alphabet</td><td>Theo bảng chữ cái</td><td>Danh bạ nhà cung cấp, glossary thuật ngữ</td></tr>
+                  <tr><td><strong>T</strong> — Time</td><td>Theo thời gian</td><td>Changelog, meeting notes, project timeline</td></tr>
+                  <tr><td><strong>C</strong> — Category</td><td>Theo danh mục</td><td>Tài liệu theo phòng ban, SOP theo quy trình</td></tr>
+                  <tr><td><strong>H</strong> — Hierarchy</td><td>Theo mức độ quan trọng</td><td>Tasks theo priority, tài liệu theo cấp bảo mật</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout green">
+              <div class="callout-icon">✅</div>
+              <div class="callout-body"><strong>Nguyên tắc vàng:</strong> Một KB tốt thường kết hợp <strong>ít nhất 2-3 phương pháp LATCH</strong>. Ví dụ: SOP database dùng Category (theo phòng ban) + Time (ngày cập nhật) + Hierarchy (độ ưu tiên).</div>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>📊 3.2. DIKW — Từ dữ liệu thô đến trí tuệ</summary>
+          <div class="details-content">
+            <div class="mermaid-wrap">
+              <div class="mermaid">
+graph TD
+    A["📊 Data — Dữ liệu thô\nSố liệu, sự kiện rời rạc"] --> B["📋 Information — Thông tin\nDữ liệu đã được tổ chức, có ngữ cảnh"]
+    B --> C["🧠 Knowledge — Tri thức\nThông tin đã được phân tích, hiểu"]
+    C --> D["💎 Wisdom — Trí tuệ\nTri thức được áp dụng để ra quyết định"]
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Tầng</th><th>Ví dụ</th><th>Trong KB lưu ở đâu?</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Data</strong></td><td>"Doanh thu tháng 3 là 500 triệu"</td><td>Database row — number property</td></tr>
+                  <tr><td><strong>Information</strong></td><td>"Doanh thu tháng 3 giảm 15% so với tháng 2"</td><td>Dashboard chart — trend view</td></tr>
+                  <tr><td><strong>Knowledge</strong></td><td>"Giảm vì chiến dịch marketing bị delay 2 tuần"</td><td>Lessons Learned page — linked to project</td></tr>
+                  <tr><td><strong>Wisdom</strong></td><td>"Luôn chạy campaign trước mùa cao điểm ít nhất 3 tuần"</td><td>SOP / Playbook — best practice</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout blue">
+              <div class="callout-icon">📌</div>
+              <div class="callout-body"><strong>Nguyên tắc:</strong> KB nên <strong>capture từ tầng Knowledge trở lên</strong>. Nếu chỉ lưu số liệu mà không ghi lại <em>tại sao</em> và <em>rút ra bài học gì</em>, KB sẽ chỉ là kho dữ liệu chết.</div>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>📂 3.3. PARA — Tổ chức theo mức độ hành động ⭐ Khuyên đọc</summary>
+          <div class="details-content">
+            <p>Tiago Forte đề xuất hệ thống <strong>PARA</strong> — cách tổ chức tri thức theo <em>mức độ bạn cần hành động</em>:</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Tầng</th><th>Mô tả</th><th>Tần suất truy cập</th><th>Ví dụ trên Notion</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>P</strong> — Projects</td><td>Có mục tiêu + deadline cụ thể</td><td>Hàng ngày</td><td>Database "Projects" với status, deadline, owner</td></tr>
+                  <tr><td><strong>A</strong> — Areas</td><td>Lĩnh vực chịu trách nhiệm lâu dài</td><td>Hàng tuần</td><td>Database "Areas" — Marketing, Finance, HR…</td></tr>
+                  <tr><td><strong>R</strong> — Resources</td><td>Tài liệu tham khảo theo chủ đề</td><td>Khi cần</td><td>Database "Resources" — articles, SOPs, templates</td></tr>
+                  <tr><td><strong>A</strong> — Archives</td><td>Mọi thứ không còn active</td><td>Hiếm khi</td><td>Filtered view "Archived" trong mỗi database</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="callout green">
+              <div class="callout-icon">✅</div>
+              <div class="callout-body"><strong>Mẹo:</strong> Trong Notion, bạn không cần tạo 4 database riêng. Chỉ cần <strong>1 database</strong> với property <strong>"Type"</strong> (Project / Area / Resource / Archive) + <strong>filtered views</strong> cho mỗi loại.</div>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>🗂️ 3.4. Zettelkasten — Phương pháp giúp 1 người viết 70 cuốn sách</summary>
+          <div class="details-content">
+            <div class="callout orange">
+              <div class="callout-icon">🗂️</div>
+              <div class="callout-body">Niklas Luhmann — nhà xã hội học người Đức — đã xuất bản <strong>hơn 70 cuốn sách và 400 bài nghiên cứu</strong> nhờ hệ thống ghi chú Zettelkasten với hơn 90,000 tấm thẻ được liên kết chéo. Bí mật không phải ở <em>số lượng</em> ghi chú, mà ở <em>cách chúng kết nối với nhau</em>.</div>
+            </div>
+            <p><strong>4 nguyên tắc cốt lõi:</strong></p>
+            <ol>
+              <li><strong>Mỗi ghi chú = một ý tưởng duy nhất</strong> (atomic note) — không viết essay dài</li>
+              <li><strong>Viết bằng ngôn ngữ của bạn</strong>, không copy-paste — buộc bạn phải <em>hiểu</em> trước khi ghi</li>
+              <li><strong>Liên kết chéo</strong> giữa các ghi chú — đây là nơi giá trị sinh ra</li>
+              <li><strong>Không phân cấp cứng</strong> — để ý tưởng tự kết nối tự nhiên</li>
+            </ol>
+            <p><strong>Trên Notion, áp dụng thế nào?</strong></p>
+            <ul>
+              <li>Mỗi page trong database = 1 atomic note</li>
+              <li>Dùng <strong>Relations</strong> (self-referencing) để liên kết giữa các notes</li>
+              <li>Dùng <strong>Backlinks</strong> để thấy note nào đang tham chiếu đến note hiện tại</li>
+              <li>Dùng <strong>Tags (Multi-select)</strong> để gom nhóm theo chủ đề</li>
+              <li>Dùng <strong>Gallery view</strong> để browse visual</li>
+            </ul>
+          </div>
+        </details>
+
+        <hr>
+
+        <!-- Section 4 -->
+        <h2 id="s4">4. 🛠️ Triển Khai KB Trên Notion — Hướng Dẫn Từng Bước</h2>
+
+        <h3>4.1. Kiến trúc 3 tầng — Database-First Design</h3>
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+graph TD
+    subgraph T1["Tầng 1: Foundational Databases"]
+        A["📝 Knowledge Items"]
+        B["📁 Categories / Tags"]
+        C["👤 Contributors"]
+        D["📋 SOPs & Processes"]
+    end
+    subgraph T2["Tầng 2: Operational Dashboards"]
+        E["🏠 KB Home — Overview"]
+        F["🔍 Search & Browse"]
+        G["📊 Analytics & Gaps"]
+    end
+    subgraph T3["Tầng 3: Execution Views"]
+        H["📄 Per-article Layout"]
+        I["✏️ Contribution Form"]
+        J["📋 Review Queue"]
+    end
+    A --> E
+    B --> F
+    A --> G
+    A --> H
+    D --> H
+    C --> I
+    A --> J
+          </div>
+        </div>
+
+        <h3>4.2. Database Schema — Bản thiết kế cốt lõi</h3>
+        <h4>⭐ 5 Properties bắt buộc — Bắt đầu với đây</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property</th><th>Type</th><th>Mục đích</th><th>Ví dụ</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Title</strong></td><td>Title</td><td>Tên bài viết / tài liệu</td><td>"Quy trình xử lý đơn hàng Amazon FBA"</td></tr>
+              <tr><td><strong>Status</strong></td><td>Status</td><td>Trạng thái vòng đời tài liệu</td><td>Draft → In Review → Published → Needs Update → Archived</td></tr>
+              <tr><td><strong>Category</strong></td><td>Select</td><td>Phân loại chính</td><td>SOP, How-to, Policy, Reference, Troubleshooting</td></tr>
+              <tr><td><strong>Tags</strong></td><td>Multi-select</td><td>Gắn thẻ đa chiều</td><td>Finance, Onboarding, Client-facing, Internal</td></tr>
+              <tr><td><strong>Owner</strong></td><td>Person</td><td>Ai chịu trách nhiệm cập nhật</td><td>@Trang Nguyen</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <details>
+          <summary>🔧 6 Properties nâng cao — Thêm khi KB đã ổn định</summary>
+          <div class="details-content">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Property</th><th>Type</th><th>Mục đích</th><th>Ví dụ</th></tr></thead>
+                <tbody>
+                  <tr><td>Related Area</td><td>Relation</td><td>Liên kết đến database Areas</td><td>→ Marketing, → Operations</td></tr>
+                  <tr><td>Related Items</td><td>Relation</td><td>Liên kết chéo giữa các bài (Zettelkasten)</td><td>→ "Hướng dẫn tạo listing"</td></tr>
+                  <tr><td>Last Reviewed</td><td>Date</td><td>Ngày review gần nhất</td><td>2026-03-01</td></tr>
+                  <tr><td>Review Cycle</td><td>Select</td><td>Tần suất cần review</td><td>Monthly, Quarterly, Yearly, As needed</td></tr>
+                  <tr><td>Audience</td><td>Multi-select</td><td>Đối tượng đọc</td><td>All Staff, Managers Only, New Hires, Clients</td></tr>
+                  <tr><td>Confidence</td><td>Select</td><td>Mức độ tin cậy</td><td>⭐ Verified, 🔶 Working Draft, 🔴 Needs Validation</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+
+        <div class="callout green">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body">
+            <strong>Pro tip — Formula "Stale Flag":</strong><br>
+            Tạo formula property tự động flag bài cần review:<br>
+            <code>if(dateBetween(now(), prop("Last Reviewed"), "days") > 90, "🔴 Overdue", "✅ OK")</code><br>
+            Không cần ai nhớ — hệ thống tự nhắc.
+          </div>
+        </div>
+
+        <h3>4.3. Views — Mỗi view phục vụ một mục đích</h3>
+        <div class="table-wrap">
+          <table>
+            <thead style="background:var(--purple)"><tr><th>View</th><th>Loại</th><th>Mục đích & Filter</th></tr></thead>
+            <tbody>
+              <tr><td>📋 All Published</td><td>Table</td><td>Status = Published, sort by Last Reviewed ↓</td></tr>
+              <tr><td>🗂️ By Category</td><td>Board</td><td>Group by Category — Kanban overview</td></tr>
+              <tr><td>⚠️ Needs Review</td><td>Table</td><td>Filter: Stale Flag = 🔴 hoặc Status = Needs Update</td></tr>
+              <tr><td>✏️ My Drafts</td><td>List</td><td>Filter: Owner = Me AND Status = Draft</td></tr>
+              <tr><td>🆕 Recently Added</td><td>Gallery</td><td>Sort by Created time ↓, limit 20</td></tr>
+              <tr><td>🔍 Quick Search</td><td>List</td><td>Minimal — chỉ title + tags, dùng filter bar</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>4.4. Page Template — Layout chuẩn cho mỗi bài</h3>
+        <div class="callout gray">
+          <div class="callout-icon">📄</div>
+          <div class="callout-body">
+            <strong>[Header tự động từ Properties]</strong> — Title, Status, Owner, Tags, Last Reviewed<br><br>
+            <strong>📌 TL;DR</strong> — Tóm tắt 2-3 câu, ai đọc cũng hiểu ngay bài này về gì<br><br>
+            <strong>📖 Nội dung chính</strong> — Chi tiết, có heading structure rõ ràng (H2, H3)<br><br>
+            <strong>⚡ Quick Reference</strong> — Bảng tóm tắt, checklist, hoặc flowchart<br><br>
+            <strong>🔗 Related Items</strong> — Linked database view hiển thị các bài liên quan<br><br>
+            <strong>📝 Changelog</strong> — Ai sửa gì, khi nào
+          </div>
+        </div>
+
+        <h3>4.5. Quy trình vận hành — Không chỉ build, phải maintain</h3>
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+graph LR
+    A["💡 Capture\nGhi nhận ý tưởng/info"] --> B["✏️ Draft\nViết bản nháp"]
+    B --> C["👀 Review\nPeer review / SME check"]
+    C --> D["✅ Publish\nĐăng lên KB"]
+    D --> E["📅 Maintain\nReview định kỳ"]
+    E --> F{"Còn đúng?"}
+    F -->|Có| D
+    F -->|Không| G["🔄 Update\nCập nhật nội dung"]
+    G --> C
+    F -->|Hết giá trị| H["📦 Archive"]
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- Section 5 -->
+        <h2 id="s5">5. 🤖 Notion AI Cho Knowledge Base — Vũ Khí Bí Mật</h2>
+
+        <div class="callout blue">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">Notion AI không chỉ là chatbot — nó biến KB từ "kho tài liệu tĩnh" thành <strong>hệ thống tri thức có thể hỏi đáp</strong>.</div>
+        </div>
+
+        <h3>5 cách Notion AI nâng cấp Knowledge Base</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tính năng</th><th>Ứng dụng cho KB</th><th>Ví dụ thực tế</th></tr></thead>
+            <tbody>
+              <tr><td><strong>AI Q&A Search</strong></td><td>Hỏi bằng ngôn ngữ tự nhiên, AI tìm câu trả lời từ toàn bộ KB</td><td>Hỏi "Quy trình xử lý refund cho khách VIP?" → AI trả lời kèm link đến SOP</td></tr>
+              <tr><td><strong>AI Autofill</strong></td><td>Tự động điền properties dựa trên nội dung page</td><td>Viết xong bài → AI tự gắn Tags, Category, và viết TL;DR</td></tr>
+              <tr><td><strong>AI Writing Assistant</strong></td><td>Hỗ trợ viết, edit, dịch, tóm tắt nội dung KB</td><td>Paste meeting notes thô → AI format thành SOP có cấu trúc</td></tr>
+              <tr><td><strong>AI Custom Agents</strong></td><td>Tạo agent chuyên biệt, trained trên KB của bạn</td><td>Agent "KB Assistant" trả lời câu hỏi nội bộ 24/7, cite nguồn cụ thể</td></tr>
+              <tr><td><strong>Connected Search</strong></td><td>AI search xuyên Notion + Slack + Google Drive + GitHub</td><td>Tìm thông tin liên quan dù nó nằm ở Slack thread hay Google Doc</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout yellow">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Lưu ý:</strong> AI chỉ tốt khi dữ liệu tốt. Nếu KB của bạn lộn xộn, thiếu cấu trúc, AI cũng sẽ cho kết quả kém. <strong>Đầu tư vào cấu trúc KB = đầu tư vào chất lượng AI.</strong></div>
+        </div>
+
+        <hr>
+
+        <!-- Section 6 -->
+        <h2 id="s6">6. 🚚 Migration Guide — Chuyển Từ Công Cụ Khác Sang Notion</h2>
+
+        <h3>Quy trình 4 bước</h3>
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+graph LR
+    A["1. 📦 Audit\nLiệt kê tất cả\ntài liệu hiện có"] --> B["2. 🏷️ Classify\nPhân loại theo\nPARA hoặc Category"]
+    B --> C["3. 🔄 Import\nĐưa vào Notion\ndatabase"]
+    C --> D["4. ✨ Enhance\nThêm properties,\nrelations, views"]
+          </div>
+        </div>
+
+        <h3>Chi tiết từng nguồn</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nguồn</th><th>Cách import</th><th>Lưu ý quan trọng</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Google Docs / Drive</strong></td><td>Notion Import → Google Docs (native integration)</td><td>Format cơ bản được giữ. Table có thể cần chỉnh lại.</td></tr>
+              <tr><td><strong>Confluence</strong></td><td>Notion Import → Confluence (export HTML → import)</td><td>Page tree được bảo toàn. Macro sẽ mất, cần rebuild.</td></tr>
+              <tr><td><strong>Word / PDF</strong></td><td>Drag & drop file vào Notion, hoặc copy-paste nội dung</td><td>Nên copy-paste để có native blocks thay vì embedded file.</td></tr>
+              <tr><td><strong>Markdown files</strong></td><td>Notion Import → Markdown (.md)</td><td>Format được giữ tốt nhất. Ideal cho Obsidian migration.</td></tr>
+              <tr><td><strong>Slack / Email</strong></td><td>Copy quan trọng → tạo KB article. Hoặc dùng Notion Web Clipper.</td><td>Đừng import tất cả — chỉ capture <em>knowledge</em>, không capture <em>conversation</em>.</td></tr>
+              <tr><td><strong>Spreadsheet (CSV)</strong></td><td>Notion Import → CSV. Hoặc copy-paste bảng trực tiếp.</td><td>Mỗi row trở thành 1 page trong database. Cần map columns → properties.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout yellow">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Sai lầm lớn nhất khi migrate:</strong> Import hết tất cả rồi mới tổ chức. <strong>Đúng cách:</strong> Phân loại TRƯỚC khi import. KB mới không nên chứa rác từ hệ thống cũ.</div>
+        </div>
+
+        <hr>
+
+        <!-- Section 7 -->
+        <h2 id="s7">7. 📂 Ví Dụ Thực Tiễn Theo Ngành</h2>
+
+        <details>
+          <summary>🏢 7.1. Agency / Dịch vụ — 5 databases cốt lõi</summary>
+          <div class="details-content">
+            <p><strong>Databases cần có:</strong></p>
+            <ul>
+              <li><strong>Client Wiki</strong> — Mỗi client 1 page: context, preferences, lịch sử giao tiếp</li>
+              <li><strong>SOP Library</strong> — Quy trình chuẩn: onboarding client, chạy ads, monthly report</li>
+              <li><strong>Playbooks</strong> — Chiến lược đã chạy thành công, kèm kết quả + lessons learned</li>
+              <li><strong>Tool Stack Docs</strong> — Hướng dẫn sử dụng từng tool</li>
+              <li><strong>Meeting Decision Log</strong> — Quyết định quan trọng, linked to projects</li>
+            </ul>
+            <p><strong>Workflow thực tế — Nhận client mới:</strong></p>
+            <ol>
+              <li>Tạo client profile trong Client Wiki → Relations tự link SOPs liên quan</li>
+              <li>Nhân viên mới đọc Playbook của ngành tương tự</li>
+              <li>Check SOP cho từng bước onboarding</li>
+              <li>Track bằng Status property — manager filter "In Progress" là biết tiến độ</li>
+            </ol>
+          </div>
+        </details>
+
+        <details>
+          <summary>🏭 7.2. SME / Doanh nghiệp vừa và nhỏ — Giảm 35% thời gian onboarding</summary>
+          <div class="details-content">
+            <p><strong>Databases cần có:</strong></p>
+            <ul>
+              <li><strong>Company Wiki</strong> — Chính sách, quy định, culture docs</li>
+              <li><strong>Process Library</strong> — Quy trình từng phòng ban</li>
+              <li><strong>FAQ Internal</strong> — Câu hỏi thường gặp (HR, IT, kế toán)</li>
+              <li><strong>Lessons Learned</strong> — Mỗi dự án xong ghi 1 post-mortem</li>
+              <li><strong>Vendor/Partner Directory</strong> — Database nhà cung cấp với đánh giá, liên hệ</li>
+            </ul>
+            <p><strong>Workflow thực tế — Kế toán nghỉ phép:</strong></p>
+            <ol>
+              <li>Người thay thế mở Process Library → filter "Payroll"</li>
+              <li>Theo SOP từng bước, kèm screenshots</li>
+              <li>Nếu gặp vấn đề → check FAQ Internal</li>
+              <li>Mọi thứ chạy đúng, không cần gọi điện hỏi ai</li>
+            </ol>
+          </div>
+        </details>
+
+        <details>
+          <summary>🧑‍💻 7.3. Cá nhân / Freelancer / Creator — Second Brain workflow</summary>
+          <div class="details-content">
+            <p><strong>Databases cần có:</strong></p>
+            <ul>
+              <li><strong>Second Brain</strong> — Notes database với Tags + Relations (Zettelkasten style)</li>
+              <li><strong>Learning Log</strong> — Khóa học, sách, podcast đã học, kèm key takeaways</li>
+              <li><strong>Project Templates</strong> — Mỗi loại dự án có template chuẩn</li>
+              <li><strong>Client/Contact CRM</strong> — Thông tin client, history, notes</li>
+              <li><strong>Decision Journal</strong> — Ghi lại quyết định quan trọng + reasoning + kết quả</li>
+            </ul>
+            <p><strong>Workflow thực tế — Second Brain:</strong></p>
+            <ol>
+              <li>Đọc sách → highlight quan trọng nhập vào "Second Brain" database</li>
+              <li>Mỗi highlight = 1 page, gắn tags chủ đề</li>
+              <li>Khi viết bài / làm proposal → search theo tag → tìm lại insight ngay</li>
+              <li>Relations giữa các notes tạo ra "web of knowledge" — ý tưởng mới sinh ra từ kết nối cũ</li>
+            </ol>
+          </div>
+        </details>
+
+        <hr>
+
+        <!-- Section 8 -->
+        <h2 id="s8">8. ⚠️ 7 Sai Lầm Phổ Biến & Cách Tránh</h2>
+        <div class="table-wrap">
+          <table>
+            <thead style="background:var(--red)"><tr><th>Sai lầm</th><th>Tại sao sai</th><th>Cách sửa</th></tr></thead>
+            <tbody>
+              <tr><td><strong>1. Dùng page thay database</strong></td><td>Không filter, sort, aggregate được. Thông tin bị chôn trong text.</td><td>Mọi thứ cần tái sử dụng → đưa vào database row với properties.</td></tr>
+              <tr><td><strong>2. Quá nhiều database</strong></td><td>Mỗi thứ 1 database → fragmented, khó maintain.</td><td>Bắt đầu với 3-5 core databases. Mở rộng khi thực sự cần.</td></tr>
+              <tr><td><strong>3. Thiếu owner cho từng bài</strong></td><td>Không ai chịu trách nhiệm → nội dung lỗi thời.</td><td>Mỗi KB article phải có Person property "Owner".</td></tr>
+              <tr><td><strong>4. Không có review cycle</strong></td><td>Tài liệu viết xong rồi quên → thông tin sai lệch.</td><td>Set review cycle + formula flag tự động nhắc.</td></tr>
+              <tr><td><strong>5. Copy-paste thay vì link</strong></td><td>Duplicate info → update 1 chỗ quên chỗ kia.</td><td>Dùng Relations, Linked databases, Synced blocks.</td></tr>
+              <tr><td><strong>6. Cầu toàn từ đầu</strong></td><td>Muốn hoàn hảo → không bao giờ launch.</td><td>Start small: 10 bài quan trọng nhất trước. Iterate dần.</td></tr>
+              <tr><td><strong>7. Không có navigation rõ ràng</strong></td><td>KB 200 bài nhưng không ai tìm được gì.</td><td>Home dashboard + Tags nhất quán + Quick Search view.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr>
+
+        <!-- Section 9 -->
+        <h2 id="s9">9. ✅ Checklist Hành Động — Bắt Đầu Ngay Hôm Nay</h2>
+
+        <div class="week-header">🗓️ Tuần 1: Foundation</div>
+        <ul class="checklist">
+          <li><span class="check-box"></span><span>Xác định <strong>3-5 loại tri thức quan trọng nhất</strong> cần capture</span></li>
+          <li><span class="check-box"></span><span>Tạo <strong>1 database "Knowledge Items"</strong> với 5 properties bắt buộc (mục 4.2)</span></li>
+          <li><span class="check-box"></span><span>Thiết lập <strong>5-6 views cơ bản</strong> (mục 4.3)</span></li>
+          <li><span class="check-box"></span><span>Tạo <strong>page template chuẩn</strong> cho mỗi bài (mục 4.4)</span></li>
+          <li><span class="check-box"></span><span>Viết <strong>10 bài đầu tiên</strong> — ưu tiên những gì team hỏi nhiều nhất</span></li>
+        </ul>
+
+        <div class="week-header">🗓️ Tuần 2-3: Populate & Refine</div>
+        <ul class="checklist">
+          <li><span class="check-box"></span><span>Mỗi ngày thêm <strong>2-3 bài</strong> từ kiến thức hiện có</span></li>
+          <li><span class="check-box"></span><span>Migrate tài liệu quan trọng từ công cụ cũ (mục 6)</span></li>
+          <li><span class="check-box"></span><span>Thiết lập <strong>Relations</strong> giữa các bài liên quan</span></li>
+          <li><span class="check-box"></span><span>Tạo <strong>Home dashboard</strong> với linked database views</span></li>
+          <li><span class="check-box"></span><span>Assign <strong>Owner</strong> cho mỗi bài đã publish</span></li>
+        </ul>
+
+        <div class="week-header">🗓️ Tuần 4+: Sustain & Scale</div>
+        <ul class="checklist">
+          <li><span class="check-box"></span><span>Thêm <strong>6 properties nâng cao</strong> (Review Cycle, Audience, Confidence…)</span></li>
+          <li><span class="check-box"></span><span>Đưa vào <strong>quy trình hàng tuần</strong>: review 5 bài cũ, thêm 2 bài mới</span></li>
+          <li><span class="check-box"></span><span>Tạo <strong>Contribution Form</strong> để team dễ dàng submit kiến thức</span></li>
+          <li><span class="check-box"></span><span>Thiết lập <strong>Notion AI agent</strong> cho KB Q&A (mục 5)</span></li>
+          <li><span class="check-box"></span><span>Review <strong>Stale Flag</strong> monthly — cập nhật hoặc archive</span></li>
+        </ul>
+
+        <h3>📊 KPIs đo lường sức khỏe Knowledge Base</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>KPI</th><th>Cách đo trên Notion</th><th>Mục tiêu tham khảo</th></tr></thead>
+            <tbody>
+              <tr><td>Tổng số bài Published</td><td>Count trong "All Published" view</td><td>50+ bài sau 3 tháng</td></tr>
+              <tr><td>Tỷ lệ Stale (quá hạn review)</td><td>Count Stale Flag 🔴 / Total Published</td><td>Dưới 15%</td></tr>
+              <tr><td>Tỷ lệ Draft vs Published</td><td>Group by Status → compare counts</td><td>Draft &lt; 30% tổng số bài</td></tr>
+              <tr><td>Bài mới / tháng</td><td>Filter Created time = this month</td><td>8-12 bài/tháng (team nhỏ)</td></tr>
+              <tr><td>Số bài có Owner</td><td>Filter Owner is not empty</td><td>100% bài Published có Owner</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr>
+
+        <!-- Section 10 -->
+        <h2 id="s10">10. 🔐 Permissions & Sharing — Phân Quyền Cho Team</h2>
+
+        <div class="callout blue">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">KB tốt mà không phân quyền đúng thì hoặc <strong>ai cũng sửa lung tung</strong>, hoặc <strong>ai cũng không truy cập được</strong>. Cả hai đều giết KB.</div>
+        </div>
+
+        <h3>Mô hình phân quyền đề xuất</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Vai trò</th><th>Quyền</th><th>Cách thiết lập trên Notion</th></tr></thead>
+            <tbody>
+              <tr><td><strong>KB Admin</strong></td><td>Full access: tạo, sửa, xóa, quản lý schema</td><td>Workspace Admin hoặc Page Owner</td></tr>
+              <tr><td><strong>Content Owner</strong></td><td>Sửa bài của mình, tạo bài mới, comment</td><td>Can Edit trên database + filter "My pages"</td></tr>
+              <tr><td><strong>Team Member</strong></td><td>Đọc tất cả Published, comment, suggest edits</td><td>Can Comment trên database</td></tr>
+              <tr><td><strong>Guest / Client</strong></td><td>Chỉ đọc những bài được share</td><td>Share individual pages → Can View</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Best practices phân quyền</h3>
+        <ul>
+          <li>Dùng <strong>Teamspaces</strong> để phân KB theo phòng ban</li>
+          <li><strong>Lock database schema</strong> sau khi ổn định — tránh ai đó vô tình xóa property</li>
+          <li>Dùng <strong>"Audience" property</strong> để gắn nhãn bài nào cho ai đọc</li>
+          <li><strong>Share page, không share database</strong> khi cần chia sẻ với guest</li>
+        </ul>
+
+        <div class="callout yellow">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>Cẩn thận:</strong> Khi share 1 page trong database, guest có thể thấy <strong>tên các pages khác</strong> qua relation properties. Nếu thông tin nhạy cảm, dùng one-way relation hoặc share bản copy thay vì share page gốc.</div>
+        </div>
+
+        <hr>
+
+        <!-- Section 11 -->
+        <h2 id="s11">11. 🧩 Phụ Lục A — Database Design Patterns Trên Notion</h2>
+
+        <div class="callout blue">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">Phần này dành cho <strong>Builder / Power User</strong>. Đây là những pattern kiến trúc database đã được kiểm chứng — giúp bạn tránh phải refactor lại hệ thống sau khi đã có hàng trăm pages.</div>
+        </div>
+
+        <h3>Pattern 1: Hub & Spoke — Trung tâm và vệ tinh</h3>
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+graph TD
+    A["🏠 Hub Database\nProjects / Clients"] --> B["📝 Tasks"]
+    A --> C["📄 Documents"]
+    A --> D["💬 Meeting Notes"]
+    A --> E["💰 Invoices"]
+    A --> F["📊 Reports"]
+          </div>
+        </div>
+        <p><strong>Khi nào dùng:</strong> Khi có 1 entity trung tâm (Project, Client, Product) mà nhiều loại data khác xoay quanh.</p>
+        <div class="callout green">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><strong>Ví dụ:</strong> Agency quản lý 20 clients. Hub = Client database. Mỗi client page hiện tất cả SOPs, meeting notes, invoices liên quan — không cần mở 5 database khác nhau.</div>
+        </div>
+
+        <h3>Pattern 2: Master Tag System — Một database Tags cho tất cả</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Multi-select Tags</th><th>Master Tag Database</th></tr></thead>
+            <tbody>
+              <tr><td>❌ Tags chỉ local trong 1 database</td><td>✅ Tags dùng chung cross-database</td></tr>
+              <tr><td>❌ Không thêm metadata cho tag</td><td>✅ Mỗi tag có description, color, owner</td></tr>
+              <tr><td>❌ Không biết tag nào đang dùng ở đâu</td><td>✅ Mở tag page → thấy tất cả items liên quan</td></tr>
+              <tr><td>✅ Nhanh, đơn giản</td><td>⚠️ Phức tạp hơn, cần maintain</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout blue">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body"><strong>Quy tắc:</strong> Dưới 20 tags và chỉ dùng trong 1 database → Multi-select OK. Trên 20 tags hoặc dùng cross-database → Master Tag Database.</div>
+        </div>
+
+        <h3>Pattern 3: Self-Referencing Relation — Zettelkasten trên Notion</h3>
+        <p>Tạo Relation property trong database trỏ về <strong>chính nó</strong> (self-referencing).</p>
+        <ul>
+          <li>Property "Related Items" → Relation to <strong>same database</strong></li>
+          <li>Chọn <strong>Two-way</strong> → tự động tạo backlink</li>
+          <li>Kết quả: mạng lưới tri thức — mở bất kỳ page nào cũng thấy "ai đang link đến tôi?"</li>
+        </ul>
+        <p><strong>Khi nào dùng:</strong> Knowledge Base, Second Brain, Research Notes, Glossary.</p>
+
+        <h3>Pattern 4: Status Machine — Quản lý lifecycle</h3>
+        <div class="mermaid-wrap">
+          <div class="mermaid">
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> InReview: Submit
+    InReview --> Published: Approve
+    InReview --> Draft: Reject
+    Published --> NeedsUpdate: Stale Flag 🔴
+    NeedsUpdate --> InReview: Re-submit
+    Published --> Archived: Deprecate
+          </div>
+        </div>
+
+        <h3>Pattern 5: Linked Database Views — Một database, nhiều "cửa sổ"</h3>
+        <p><strong>Nguyên tắc:</strong> Không duplicate database. Thay vào đó, <strong>embed linked database views</strong> vào các trang khác nhau.</p>
+        <ul>
+          <li><strong>Home Dashboard</strong> → Recently Published (Gallery, sort by date)</li>
+          <li><strong>Team Lead Page</strong> → Needs Review (Table, filter Stale Flag = 🔴)</li>
+          <li><strong>New Hire Page</strong> → Onboarding articles only (List, filter Tags = Onboarding)</li>
+          <li><strong>Client Portal</strong> → Client-facing docs (Gallery, filter Audience = Clients)</li>
+        </ul>
+
+        <h3>Pattern 6: Khi nào dùng Relation vs Rollup vs Formula?</h3>
+        <div class="table-wrap">
+          <table>
+            <thead style="background:var(--purple)"><tr><th>Công cụ</th><th>Dùng khi</th><th>Ví dụ</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Relation</strong></td><td>Liên kết 2 entities</td><td>Task → Project, Article → Tags</td></tr>
+              <tr><td><strong>Rollup</strong></td><td>Tổng hợp data từ relation (count, sum, %)</td><td>Project → Count tasks "Done" → % completion</td></tr>
+              <tr><td><strong>Formula</strong></td><td>Tính toán, logic, format dựa trên properties</td><td>Stale Flag, Days Until Deadline, Auto-badge</td></tr>
+              <tr><td><strong>Relation + Rollup</strong></td><td>Aggregate data cross-database</td><td>Client → sum(Invoice amounts) → Total Revenue</td></tr>
+              <tr><td><strong>Formula + Rollup</strong></td><td>Tính trên kết quả aggregate</td><td>if(Completion % &lt; 50, "🔴 Behind", "🟢 On Track")</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <hr>
+
+        <!-- Section 12 -->
+        <h2 id="s12">12. ⌨️ Phụ Lục B — Notion Shortcuts & Power Tips</h2>
+
+        <div class="callout blue">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">Những shortcuts này sẽ <strong>tăng tốc 2-3x</strong> khi bạn làm việc trên Notion hàng ngày. Chỉ cần thuộc 10 cái đầu tiên là đã khác biệt.</div>
+        </div>
+
+        <h3>⚡ Top 10 shortcuts mọi người nên biết</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Shortcut</th><th>Tác dụng</th><th>Tại sao quan trọng</th></tr></thead>
+            <tbody>
+              <tr><td><code>/</code> (Slash)</td><td>Mở menu tạo block</td><td>Truy cập mọi block type: database, callout, toggle, heading…</td></tr>
+              <tr><td><code>Cmd/Ctrl + K</code></td><td>Tìm kiếm nhanh hoặc tạo link</td><td>Nhảy đến bất kỳ page nào trong workspace trong 2 giây</td></tr>
+              <tr><td><code>Cmd/Ctrl + P</code></td><td>Quick Find — tìm page, database</td><td>Nhanh hơn navigate bằng sidebar gấp 5x</td></tr>
+              <tr><td><code>Cmd/Ctrl + Shift + P</code></td><td>Mở page gần đây</td><td>Quay lại trang vừa xem mà không cần nhớ ở đâu</td></tr>
+              <tr><td><code>@</code> (At)</td><td>Mention người, page, date</td><td>Tạo liên kết nhanh + notification cho team</td></tr>
+              <tr><td><code>[[</code> (Double bracket)</td><td>Link đến page khác</td><td>Tạo backlink — nền tảng của Zettelkasten trong Notion</td></tr>
+              <tr><td><code>Cmd/Ctrl + D</code></td><td>Duplicate block/page</td><td>Clone template, duplicate row nhanh</td></tr>
+              <tr><td><code>Cmd/Ctrl + Shift + M</code></td><td>Tạo comment</td><td>Feedback nhanh mà không sửa nội dung gốc</td></tr>
+              <tr><td><code>Cmd/Ctrl + \</code></td><td>Toggle sidebar</td><td>Mở rộng vùng làm việc khi cần focus</td></tr>
+              <tr><td><code>Esc → Esc</code></td><td>Select block → Deselect</td><td>Di chuyển, kéo thả block chính xác hơn</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>🔤 Markdown shortcuts — Gõ nhanh hơn chuột</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Gõ</th><th>Kết quả</th></tr></thead>
+            <tbody>
+              <tr><td><code># </code> + Space</td><td>Heading 1</td></tr>
+              <tr><td><code>## </code> + Space</td><td>Heading 2</td></tr>
+              <tr><td><code>### </code> + Space</td><td>Heading 3</td></tr>
+              <tr><td><code>- </code> + Space</td><td>Bullet list</td></tr>
+              <tr><td><code>1. </code> + Space</td><td>Numbered list</td></tr>
+              <tr><td><code>[] </code> + Space</td><td>To-do checkbox</td></tr>
+              <tr><td><code>> </code> + Space</td><td>Quote block</td></tr>
+              <tr><td><code>---</code></td><td>Divider</td></tr>
+              <tr><td><code>**text**</code></td><td><strong>Bold</strong></td></tr>
+              <tr><td><code>*text*</code></td><td><em>Italic</em></td></tr>
+              <tr><td><code>`code`</code></td><td><code>Inline code</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>🧩 Power tips ít người biết</h3>
+        <ol>
+          <li><strong>Turn Into</strong> — Select bất kỳ block nào → gõ <code>/turn</code> → chuyển thành block type khác</li>
+          <li><strong>Drag & Drop giữa columns</strong> — Kéo block sang cạnh để tạo column layout</li>
+          <li><strong>Template Button</strong> — Gõ <code>/template</code> → tạo button tự động sinh content chuẩn mỗi lần bấm</li>
+          <li><strong>Database Filter as URL</strong> — Mỗi filtered view có URL riêng. Share URL đó = share đúng view đã filter</li>
+          <li><strong>Cmd/Ctrl + Shift + H</strong> — Highlight text với màu cuối cùng đã dùng</li>
+          <li><strong>Synced Blocks</strong> — Copy block → Paste as Synced Block → Sửa 1 chỗ, update everywhere</li>
+          <li><strong>Page Lock</strong> — Lock page khi nội dung đã finalize → tránh ai sửa nhầm</li>
+        </ol>
+
+        <hr>
+
+        <!-- Section 13 -->
+        <h2 id="s13">13. 🧠 Phụ Lục C — Notion AI Best Practices & Chống "Brain Rot" Số</h2>
+
+        <div class="callout blue">
+          <div class="callout-icon">📌</div>
+          <div class="callout-body">Dùng AI đúng cách — tăng năng suất mà không mất khả năng tư duy.</div>
+        </div>
+
+        <h3>🤖 Nguyên tắc vàng: AI = Junior Assistant, Bạn = Senior Editor</h3>
+        <div class="table-wrap">
+          <table>
+            <thead style="background:var(--green)"><tr><th>✅ Nên</th><th>🚫 Không nên</th></tr></thead>
+            <tbody>
+              <tr><td>Dùng AI để <strong>draft</strong> → bạn <strong>edit, refine, thêm context</strong></td><td>Copy-paste output AI nguyên xi không đọc lại</td></tr>
+              <tr><td>Dùng AI để <strong>tóm tắt</strong> meeting notes dài → bạn <strong>verify</strong> action items</td><td>Tin 100% AI tóm tắt chính xác mà không check</td></tr>
+              <tr><td>Dùng AI Autofill để <strong>gợi ý</strong> tags/category → bạn <strong>confirm</strong></td><td>Để AI autofill mà không review → tags sai, data bẩn</td></tr>
+              <tr><td>Dùng AI Q&A để <strong>tìm nhanh</strong> → rồi <strong>đọc source gốc</strong></td><td>Chỉ đọc câu trả lời AI mà không mở source</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>7 prompts hiệu quả nhất cho Notion AI trong KB</h3>
+        <ol>
+          <li><strong>Tóm tắt:</strong> <em>"Summarize this page in 3 bullet points, focusing on actionable takeaways"</em></li>
+          <li><strong>Auto-tag:</strong> <em>"Based on the content, suggest 3-5 tags from this list: [Finance, HR, Ops, Marketing, Sales, Tech]"</em></li>
+          <li><strong>TL;DR:</strong> <em>"Write a 2-sentence TL;DR for this article that answers: What is this about? Who should read it?"</em></li>
+          <li><strong>Improve:</strong> <em>"Rewrite this SOP to be clearer. Use numbered steps, simple language, and add warnings for common mistakes"</em></li>
+          <li><strong>Translate:</strong> <em>"Translate this to Vietnamese, keeping technical terms in English where appropriate"</em></li>
+          <li><strong>Extract:</strong> <em>"Extract all action items and decisions from these meeting notes. Format as a checklist"</em></li>
+          <li><strong>Gap analysis:</strong> <em>"What important topics are missing from this article? Suggest 3 sections I should add"</em></li>
+        </ol>
+
+        <h3>🧟 Chống "Brain Rot" Số — Giữ Não Sắc Bén</h3>
+        <div class="callout yellow">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><strong>"Brain rot" (não mục) số</strong> là hiện tượng <strong>giảm khả năng tư duy sâu, ghi nhớ, và sáng tạo</strong> do phụ thuộc quá nhiều vào AI và công cụ số. Oxford Dictionary chọn "brain rot" là <strong>Word of the Year 2024</strong>.</div>
+        </div>
+
+        <h4>Framework: THINK Before AI</h4>
+        <div class="table-wrap">
+          <table>
+            <thead style="background:var(--purple)"><tr><th>Chữ cái</th><th>Nguyên tắc</th><th>Thực hành</th></tr></thead>
+            <tbody>
+              <tr><td><strong>T</strong> — Try first</td><td>Tự thử trước khi nhờ AI</td><td>Viết draft thô 5 phút trước → rồi mới dùng AI refine</td></tr>
+              <tr><td><strong>H</strong> — Handwrite sometimes</td><td>Viết tay kích hoạt não khác</td><td>Brainstorm trên giấy trước → digitize sau</td></tr>
+              <tr><td><strong>I</strong> — Internalize, don't just save</td><td>Hiểu rồi mới lưu, không hoard</td><td>Mỗi note phải có "In my own words" section</td></tr>
+              <tr><td><strong>N</strong> — Navigate without GPS</td><td>Thi thoảng đừng dùng AI search</td><td>Tự browse KB bằng Tags + Relations</td></tr>
+              <tr><td><strong>K</strong> — Keep creating, not just consuming</td><td>Output nhiều hơn input</td><td>Quy tắc 3:1 — Cứ mỗi 3 bài đọc → viết 1 bài tổng hợp</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>5 thói quen chống brain rot hàng ngày</h4>
+        <ol>
+          <li><strong>"Morning Page" trên Notion</strong> — Mỗi sáng viết 10 phút free-writing, KHÔNG dùng AI. Đây là bài tập "gym cho não".</li>
+          <li><strong>Weekly Review thủ công</strong> — Mỗi tuần mở KB, đọc lại 5 bài cũ, tự hỏi: <em>"Tôi còn nhớ bài này nói gì không?"</em></li>
+          <li><strong>"Explain to a 5-year-old" test</strong> — Trước khi publish 1 bài KB, tự giải thích nội dung thành lời nói đơn giản.</li>
+          <li><strong>AI-free hours</strong> — Đặt 2-3 giờ/ngày làm việc không có AI assistance.</li>
+          <li><strong>Connection Journaling</strong> — Mỗi khi đọc xong 1 bài, ghi lại: <em>"Bài này connect với ý nào tôi đã biết?"</em></li>
+        </ol>
+
+        <div class="callout purple">
+          <div class="callout-icon">🧠</div>
+          <div class="callout-body"><strong>Tóm lại:</strong> AI giỏi <strong>xử lý thông tin</strong>, nhưng chỉ con người mới <strong>tạo ra tri thức</strong>. Knowledge Base tốt nhất là KB mà <strong>bạn thực sự hiểu mọi thứ bên trong</strong>, không chỉ là nơi AI dump content vào.</div>
+        </div>
+
+        <hr>
+
+        <!-- Section 14 -->
+        <h2 id="s14">14. 🎯 Tổng Kết — Tư Duy Nền Tảng</h2>
+
+        <div class="callout blue">
+          <div class="callout-icon">🧠</div>
+          <div class="callout-body">
+            <h3 style="margin:0 0 12px;font-size:16px">3 nguyên tắc không bao giờ được quên</h3>
+            <p><strong>1. Database-first</strong> — Mọi tri thức cần tái sử dụng phải nằm trong database, không phải free-form page.</p>
+            <p><strong>2. Property-driven</strong> — Dùng properties (Status, Tags, Relations, Formulas) để tổ chức, filter, và tự động hóa — không dựa vào trí nhớ con người.</p>
+            <p style="margin:0"><strong>3. Single Source of Truth</strong> — Mỗi mẩu thông tin chỉ tồn tại ở <strong>một nơi duy nhất</strong>. Nơi khác cần dùng thì <strong>link</strong>, không <strong>copy</strong>.</p>
+          </div>
+        </div>
+
+        <blockquote>"Knowledge base không phải là thư viện tĩnh. Nó là một hệ thống sống — được nuôi dưỡng hàng ngày, tự nhắc khi lỗi thời, và tạo ra giá trị mỗi khi có ai đó cần câu trả lời."</blockquote>
+
+      </div><!-- /content -->
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>© 2026 <strong>BEUP LEARNING SOLUTIONS</strong>. All rights reserved.</p>
+        <p style="margin-top:6px">Tài liệu thiết kế theo phương pháp Thomas Frank — database-first, property-driven, single source of truth.</p>
+        <p style="margin-top:6px">🦫 <a href="http://beup.space">beup.space</a></p>
+      </div>
+    </div><!-- /main -->
+  </div><!-- /layout -->
+
+  <script>
+    // Init Mermaid
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      fontFamily: 'Inter, system-ui, sans-serif',
+    });
+
+    // Active sidebar link on scroll
+    const sections = document.querySelectorAll('h2[id]');
+    const links = document.querySelectorAll('.sidebar a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>
