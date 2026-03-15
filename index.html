@@ -334,17 +334,10 @@
     }
     .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; line-height: 1; }
     .callout-body { flex: 1; min-width: 0; }
-    /* Only the first direct-child <strong> acts as callout title (block).
-       All other <strong> tags (inside <p>, inline text) stay inline. */
-    .callout-body > strong:first-child {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 700;
-    }
-    .callout-body p strong,
-    .callout-body li strong {
-      display: inline;
-    }
+    /* Callout title: always use <b class="ct"> for block titles */
+    .ct { display: block; font-weight: 700; margin-bottom: 6px; }
+    /* strong is ALWAYS inline — never set to block */
+    strong { font-weight: 700; }
     .callout-body p { margin-bottom: 8px; }
     .callout-body p:last-child { margin-bottom: 0; }
 
@@ -572,7 +565,7 @@
       <div class="callout teal">
         <div class="callout-icon">📌</div>
         <div class="callout-body">
-          <strong>Tài liệu này dành cho ai?</strong>
+          <b class="ct">Tài liệu này dành cho ai?</b>
           Bất kỳ ai muốn ngừng "ghi chú rồi quên" và bắt đầu xây dựng một hệ thống tri thức cá nhân hoặc tổ chức — nơi mỗi mẩu thông tin có nhà của nó, có thể tìm lại, kết nối, và tạo ra giá trị thực sự.
         </div>
       </div>
@@ -722,7 +715,7 @@
       <div class="callout green">
         <div class="callout-icon">✅</div>
         <div class="callout-body">
-          <strong>Tóm lại:</strong> Notion là lựa chọn tốt nhất khi bạn cần <strong>database có cấu trúc</strong> + <strong>collaboration</strong> + <strong>linh hoạt</strong> + <strong>AI</strong> trong cùng một nền tảng. Nếu bạn đã ở trong Notion ecosystem, không cần tìm đâu xa.
+          <b class="ct">Tóm lại:</b> Notion là lựa chọn tốt nhất khi bạn cần <strong>database có cấu trúc</strong> + <strong>collaboration</strong> + <strong>linh hoạt</strong> + <strong>AI</strong> trong cùng một nền tảng. Nếu bạn đã ở trong Notion ecosystem, không cần tìm đâu xa.
         </div>
       </div>
 
@@ -758,7 +751,7 @@
           <div class="callout green">
             <div class="callout-icon">✅</div>
             <div class="callout-body">
-              <strong>Nguyên tắc vàng:</strong> Một KB tốt thường kết hợp <strong>ít nhất 2–3 phương pháp LATCH</strong>. Ví dụ: SOP database dùng <em>Category</em> (theo phòng ban) + <em>Time</em> (ngày cập nhật) + <em>Hierarchy</em> (độ ưu tiên).
+              <b class="ct">Nguyên tắc vàng:</b> Một KB tốt thường kết hợp <strong>ít nhất 2–3 phương pháp LATCH</strong>. Ví dụ: SOP database dùng <em>Category</em> (theo phòng ban) + <em>Time</em> (ngày cập nhật) + <em>Hierarchy</em> (độ ưu tiên).
             </div>
           </div>
         </div>
@@ -790,7 +783,7 @@ graph TD
           <div class="callout teal">
             <div class="callout-icon">📌</div>
             <div class="callout-body">
-              <strong>Nguyên tắc:</strong> KB nên <strong>capture từ tầng Knowledge trở lên</strong>, không chỉ là data dump. Nếu chỉ lưu số liệu mà không ghi lại <em>tại sao</em> và <em>rút ra bài học gì</em>, KB sẽ chỉ là kho dữ liệu chết.
+              <b class="ct">Nguyên tắc:</b> KB nên <strong>capture từ tầng Knowledge trở lên</strong>, không chỉ là data dump. Nếu chỉ lưu số liệu mà không ghi lại <em>tại sao</em> và <em>rút ra bài học gì</em>, KB sẽ chỉ là kho dữ liệu chết.
             </div>
           </div>
         </div>
@@ -814,7 +807,7 @@ graph TD
           <div class="callout green">
             <div class="callout-icon">✅</div>
             <div class="callout-body">
-              <strong>Mẹo:</strong> Trong Notion, bạn không cần tạo 4 database riêng cho P-A-R-A. Chỉ cần <strong>1 database</strong> với property <strong>"Type"</strong> (Project / Area / Resource / Archive) + <strong>filtered views</strong> cho mỗi loại. Đơn giản hơn và dễ maintain hơn nhiều.
+              <b class="ct">Mẹo:</b> Trong Notion, bạn không cần tạo 4 database riêng cho P-A-R-A. Chỉ cần <strong>1 database</strong> với property <strong>"Type"</strong> (Project / Area / Resource / Archive) + <strong>filtered views</strong> cho mỗi loại. Đơn giản hơn và dễ maintain hơn nhiều.
             </div>
           </div>
         </div>
@@ -922,7 +915,7 @@ graph TD
       <div class="callout green">
         <div class="callout-icon">✅</div>
         <div class="callout-body">
-          <strong>Pro tip — Formula "Stale Flag":</strong><br>
+          <b class="ct">Pro tip — Formula "Stale Flag":</b><br>
           Tạo formula property tự động flag bài cần review:<br>
           <code>if(dateBetween(now(), prop("Last Reviewed"), "days") > 90, "🔴 Overdue", "✅ OK")</code><br>
           Không cần ai nhớ — hệ thống tự nhắc.
@@ -1023,7 +1016,7 @@ graph LR
       <div class="callout yellow">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body">
-          <strong>Lưu ý:</strong> AI chỉ tốt khi dữ liệu tốt. Nếu KB của bạn lộn xộn, thiếu cấu trúc, AI cũng sẽ cho kết quả kém. <strong>Đầu tư vào cấu trúc KB = đầu tư vào chất lượng AI.</strong>
+          <b class="ct">Lưu ý:</b> AI chỉ tốt khi dữ liệu tốt. Nếu KB của bạn lộn xộn, thiếu cấu trúc, AI cũng sẽ cho kết quả kém. <strong>Đầu tư vào cấu trúc KB = đầu tư vào chất lượng AI.</strong>
         </div>
       </div>
 
@@ -1068,7 +1061,7 @@ graph LR
       <div class="callout yellow">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body">
-          <strong>Sai lầm lớn nhất khi migrate:</strong> Import hết tất cả rồi mới tổ chức. <strong>Đúng cách:</strong> Phân loại TRƯỚC khi import. KB mới không nên chứa rác từ hệ thống cũ.
+          <b class="ct">Sai lầm lớn nhất khi migrate:</b> Import hết tất cả rồi mới tổ chức. <strong>Đúng cách:</strong> Phân loại TRƯỚC khi import. KB mới không nên chứa rác từ hệ thống cũ.
         </div>
       </div>
 
@@ -1246,7 +1239,7 @@ graph LR
       <div class="callout yellow">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body">
-          <strong>Cẩn thận:</strong> Khi share 1 page trong database, guest có thể thấy <strong>tên các pages khác</strong> qua relation properties. Nếu thông tin nhạy cảm, dùng one-way relation hoặc share bản copy thay vì share page gốc.
+          <b class="ct">Cẩn thận:</b> Khi share 1 page trong database, guest có thể thấy <strong>tên các pages khác</strong> qua relation properties. Nếu thông tin nhạy cảm, dùng one-way relation hoặc share bản copy thay vì share page gốc.
         </div>
       </div>
 
@@ -1278,7 +1271,7 @@ graph TD
       <div class="callout green">
         <div class="callout-icon">✅</div>
         <div class="callout-body">
-          <strong>Ví dụ:</strong> Agency quản lý 20 clients. Hub = Client database. Mỗi client page hiện tất cả SOPs, meeting notes, invoices liên quan — không cần mở 5 database khác nhau.
+          <b class="ct">Ví dụ:</b> Agency quản lý 20 clients. Hub = Client database. Mỗi client page hiện tất cả SOPs, meeting notes, invoices liên quan — không cần mở 5 database khác nhau.
         </div>
       </div>
 
@@ -1299,7 +1292,7 @@ graph TD
       <div class="callout teal">
         <div class="callout-icon">📌</div>
         <div class="callout-body">
-          <strong>Quy tắc:</strong> Dưới 20 tags và chỉ dùng trong 1 database → Multi-select OK. Trên 20 tags hoặc dùng cross-database → Master Tag Database.
+          <b class="ct">Quy tắc:</b> Dưới 20 tags và chỉ dùng trong 1 database → Multi-select OK. Trên 20 tags hoặc dùng cross-database → Master Tag Database.
         </div>
       </div>
 
@@ -1456,7 +1449,7 @@ stateDiagram-v2
       <div class="callout yellow">
         <div class="callout-icon">⚠️</div>
         <div class="callout-body">
-          <strong>"Brain rot" (não mục) số</strong> là hiện tượng <strong>giảm khả năng tư duy sâu, ghi nhớ, và sáng tạo</strong> do phụ thuộc quá nhiều vào AI và công cụ số. Oxford Dictionary chọn "brain rot" là <strong>Word of the Year 2024</strong> — vấn đề này nghiêm trọng hơn bạn nghĩ.
+          <b class="ct">"Brain rot" (não mục) số</b> là hiện tượng <strong>giảm khả năng tư duy sâu, ghi nhớ, và sáng tạo</strong> do phụ thuộc quá nhiều vào AI và công cụ số. Oxford Dictionary chọn "brain rot" là <strong>Word of the Year 2024</strong> — vấn đề này nghiêm trọng hơn bạn nghĩ.
         </div>
       </div>
 
@@ -1495,7 +1488,7 @@ stateDiagram-v2
       <div class="callout purple">
         <div class="callout-icon">🧠</div>
         <div class="callout-body">
-          <strong>Tóm lại:</strong> AI giỏi <strong>xử lý thông tin</strong>, nhưng chỉ con người mới <strong>tạo ra tri thức</strong>. Dùng AI để tăng tốc phần mechanical (format, tìm kiếm, tóm tắt). Giữ phần creative và analytical cho não bạn. Knowledge Base tốt nhất là KB mà <strong>bạn thực sự hiểu mọi thứ bên trong</strong>, không chỉ là nơi AI dump content vào.
+          <b class="ct">Tóm lại:</b> AI giỏi <strong>xử lý thông tin</strong>, nhưng chỉ con người mới <strong>tạo ra tri thức</strong>. Dùng AI để tăng tốc phần mechanical (format, tìm kiếm, tóm tắt). Giữ phần creative và analytical cho não bạn. Knowledge Base tốt nhất là KB mà <strong>bạn thực sự hiểu mọi thứ bên trong</strong>, không chỉ là nơi AI dump content vào.
         </div>
       </div>
 
