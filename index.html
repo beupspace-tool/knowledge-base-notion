@@ -334,10 +334,16 @@
     }
     .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; line-height: 1; }
     .callout-body { flex: 1; min-width: 0; }
-    .callout-body strong {
+    /* Only the first direct-child <strong> acts as callout title (block).
+       All other <strong> tags (inside <p>, inline text) stay inline. */
+    .callout-body > strong:first-child {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       font-weight: 700;
+    }
+    .callout-body p strong,
+    .callout-body li strong {
+      display: inline;
     }
     .callout-body p { margin-bottom: 8px; }
     .callout-body p:last-child { margin-bottom: 0; }
